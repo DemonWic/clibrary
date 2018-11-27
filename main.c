@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahintz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 12:38:00 by ahintz            #+#    #+#             */
-/*   Updated: 2018/11/25 16:11:26 by ahintz           ###   ########.fr       */
+/*   Created: 2018/11/22 10:22:05 by agottlie          #+#    #+#             */
+/*   Updated: 2018/11/27 16:40:51 by ahintz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <ctype.h>
 #include "ft_memset.c"
 #include "ft_bzero.c"
 #include "ft_memcpy.c"
@@ -39,7 +40,9 @@
 #include "ft_isdigit.c"
 #include "ft_isalnum.c"
 #include "ft_isascii.c"
-
+#include "ft_isprint.c"
+#include "ft_toupper.c"
+#include "ft_tolower.c"
 
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
@@ -66,441 +69,1361 @@ int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
+int		ft_isprint(int c);
+int		ft_tolower(int c);
+int		ft_toupper(int c);
 
 
-int		main()
+int		main(void)
 {
-	char s1[]="Hello";
-	char *s3;
-	char *s4;
-	char s2[]="Hello";
-	s3 = memset(s1, '1', 5);
-	s4 = ft_memset(s2, '1', 5);
-	printf("%s\n", "MEMSET");
-	printf("%s\n", s1);
-	printf("%s\n", s2);
-	printf("%s\n", s3);
-	printf("%s\n", s4);
 
-	printf("%s\n", "BZERO");
-	char s5[]= "hello";
-	char s6[]= "hello";
-	bzero(s5, 3);
-	ft_bzero(s6, 3);
-	printf("%s\n", s5);
-	printf("%s\n", s6);
-	int i = 0;
-	while(i <= 6)
+	putchar('\n');
+
+	/* ============ FT_IS ============ */
+	printf("FT_ISALPHA\n");
 	{
-		if (s5[i] == s6[i])
-			printf("%i\n", 1);
-		i++;
+		printf("\tTest 1 ");
+		char	nbr1 = isalpha('1');
+		char	nbr2 = ft_isalpha('1');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisalpha = %c\n\t\tft_isalpha = %c\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = isalpha(1);
+		nbr2 = ft_isalpha(1);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisalpha = %c\n\t\tft_isalpha = %c\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = isalpha('a');
+		nbr2 = ft_isalpha('a');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisalpha = %c\n\t\tft_isalpha = %c\n", nbr1, nbr2);
 	}
 
-	printf("%s\n", "MEMCPY");
-
-	char s7[]="Hello";
-	char s8[]="ADF";
-	char *s9;
-	char *s10;
-	char s11[]="Hello";
-	char s12[]="ADF";
-	s9 = memcpy(s7, s8, 3);
-	s10 = ft_memcpy(s11, s12, 3);
-
-	printf("%s\n", s7);
-	printf("%s\n", s9);
-	printf("%s\n", s11);
-	printf("%s\n", s10);
-
-	printf("%s\n", "MEMCCPY");
-	char s13[]="Hello";
-	char s14[]="ADZ";
-	char s17[]="Hello";
-	char s18[]="ADZ";
-	char *s15;
-	char *s16;
-
-	s15 = memccpy(s13, s14, 69, 3);
-	s16 = ft_memccpy(s17, s18, 69, 3);
-	printf("%s\n", s13);
-	printf("%s\n", s15);
-	printf("%s\n", s17);
-	printf("%s\n", s16);
-
-
-	printf("%s\n", "MEMMOVE");
-	char s01[]="1234567890";
-	char s19[]="1234567890";
-	char *r1;
-	char *r2;
-
-	printf("%s\n",s01);
-	printf("%s\n",s19);
-	r1 = memmove(&s01[4], &s01[3], 3);
-	r2 = ft_memmove(&s19[4], &s19[3], 3);
-	printf("%s\n",s01);
-	printf("%s\n",s19);
-	printf("%s\n",r1);
-	printf("%s\n",r2);
-
-
-	printf("%s\n", "MEMCHR");
-	char s20[] = "Hello";
-	char s21[] = "Hello";
-	char *s22;
-	char *s23;
-
-	s22 = memchr(s20, 'l', 3);
-	s23 = ft_memchr(s21, 'l', 3);
-
-	printf("%s\n", s22);
-	printf("%s\n", s23);
-
-	printf("%s\n", "MEMCMP");
-	char s24[] = "abcde0f00";
-	char s25[] = "abcde0f00";
-
-	int p1;
-	int p2;
-	p1 = memcmp(s24, s25, 20);
-	p2 = ft_memcmp(s24, s25, 20);
-
-	printf("%i\n",p1);
-	printf("%i\n",p2);
-
-
-	printf("%s\n", "STRLEN");
-	char s26[]="Hello World";
-	int k1,k2;
-	k1 = strlen(s26);
-	k2 = ft_strlen(s26);
-	printf("%i\n", k1);
-	printf("%i\n", k2);
-	
-	printf("%s\n", "STRDUP");
-	char s27[]="Hello";
-	char s28[]="Hello";
-	char *s29;
-	char *s30;
-
-	s29 = strdup(s27);
-	s30 = ft_strdup(s28);
-	s27[2] = 'A';
-	s28[2] = 'A';
-	printf("%s\n", s27);
-	printf("%s\n", s29);
-	printf("%s\n", s28);
-	printf("%s\n", s30);
-	
-	printf("%s\n", "STRCPY");
-	char s31[] = "Hello";
-	char s32[] = "ARP";
-	char s33[] = "Hello";
-	char s34[] = "ARP";
-	char *s35;
-	char *s36;
-	s35 = strcpy(s31, s32);
-	s36 = ft_strcpy(s33, s34);
-	printf("%s\n", s35);
-	printf("%s\n", s36);
-	
-	printf("%s\n", "STRNCPY");
-	char s37[] = "Hello";
-	char s38[] = "Hepp";
-	char s39[] = "Hello";
-	char s40[] = "Hepp";
-	char *s41;
-	char *s42;
-	
-	s41 = strncpy(s37, s38, 5);
-	s42 = ft_strncpy(s39, s40, 5);
-	printf("%s\n", s41);
-	printf("%s\n", s42);
-
-	printf("%s\n", "STRCAT");
-	/*	ft_strcpy(s1 + ft_strlen(s1), s2);*/
-	char s43[30] = "World";
-	char s44[] = " HELLO";
-	char s45[30] = "World";
-	char s46[] = " HELLO";
-	char *s47;
-	char *s48;
-	s47 = strcat(s43, s44);
-	s48 = ft_strcat(s45, s46);
-	printf("%s\n", s47);
-	printf("%s\n", s48);	
-	
-	printf("%s\n", "STRNCAT");
-	char m1[30] = "Hello";
-	char m2[] = " World MMM";
-	char m3[30] = "Hello";
-	char m4[] = " World MMM";
-	char *m5;
-	char *m6;
-
-	m5 = strncat(m1, m2, 5);
-	m6 = ft_strncat(m3, m4, 5);
-	printf("%s\n", m5);
-	printf("%s\n", m6);
-	
-	printf("%s\n", "STRLCAT");
-/*
-	char *d;
-	const char *s;
-	size_t n;
-	size_t dlen;
-
-	d = dst;
-	s = src;
-	n = size;
-	while (n != 0 && *d)
+	printf("FT_ISDIGIT\n");
 	{
-		d++;
-		n--;
-	}
-	dlen = d - dst;
-	n = size - dlen;
+		printf("\tTest 1 ");
+		int		nbr1 = isdigit('1');
+		int		nbr2 = ft_isdigit('1');
 
-	if (n == 0)
-		return (dlen + strlen(s));
-	while (*s)
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisdigit = %d\n\t\tft_isdigit = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = isdigit(1);
+		nbr2 = ft_isdigit(1);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisdigit = %d\n\t\tft_isdigit = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = isdigit('0');
+		nbr2 = ft_isdigit('0');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisdigit = %d\n\t\tft_isdigit = %d\n", nbr1, nbr2);
+	}
+
+	printf("FT_ISALNUM\n");
 	{
-		if (n != 1)
-		{
-			*d++ = *s;
-			n--;
-		}
-		s++;
+		printf("\tTest 1 ");
+		char	nbr1 = isalnum(1);
+		char	nbr2 = ft_isalnum(1);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisalnum = %d\n\t\tft_isalnum = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = isalnum('Z');
+		nbr2 = ft_isalnum('Z');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisalnum = %d\n\t\tft_isalnum = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = isalnum('z');
+		nbr2 = ft_isalnum('z');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisalnum = %d\n\t\tft_isalnum = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		nbr1 = isalnum('{');
+		nbr2 = ft_isalnum('{');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisalnum = %d\n\t\tft_isalnum = %d\n", nbr1, nbr2);
 	}
-	*d = '\0';
-	return (dlen + (s - src));
-}*/
-	char m7[100]="Pudge is missing. ";
-	char m8[]="Hello";
-	char m9[100]="Pudge is missing. ";
-	char m10[]="Hello";
-	size_t p01;
-	size_t p02;
-	p01 = strlcat(m7, m8, 70);
-	p02 = ft_strlcat(m9, m10, 70);
-	printf("%s\n",m7);
-	printf("%s\n",m9);
-	printf("%zu\n",p01);
-	printf("%zu\n",p02);
-	if (p01 == p02)
-		printf("OK\n");
-		
-	printf("%s\n", "STRCHR");
-	char s49[]="0123456789";
-	char s50[]="0123456789";
-	char *s51;
-	char *s52;
-	char *s53;
-	char *s54;
-	s51 = strchr(s49, 0);
-	s52 = ft_strchr(s50, 0);
-	s53 = strchr(s49, '3');
-	s54 = ft_strchr(s50, '3');
-	printf("%s\n", s51);
-	printf("%s\n", s52);
-	printf("%s\n", s53);
-	printf("%s\n", s54);
-	
-	printf("%s\n", "STRRCHR");
-	char s55[]="0123453789";
-	char s56[]="0123453789";
-	char *s57;
-	char *s58;
-	char *s59;
-	char *s60;
-	s57 = strrchr(s55, '3');
-	s58 = ft_strrchr(s56, '3');
-	s59 = strrchr(s55, 0);
-	s60 = ft_strrchr(s56, 0);
-	printf("%s\n", s57);
-	printf("%s\n", s58);
-	printf("%s\n", s59);
-	printf("%s\n", s60);
-	
-	printf("%s\n", "STRSTR");
-	char s61[] = "Hello wwwworld man";
-	char s62[] = "wwworld";
-	char *s63;
-	char *s64;
-	s63 = strstr(s61, s62);
-	s64 = ft_strstr(s61, s62);
-	printf("%s\n", s63);
-	printf("%s\n", s64);
-	
-	printf("%s\n", "STRNSTR");
-	char s65[] = "Hello wwwworld man";
-	char s66[] = "wwworld";
-	char *s67;
-	char *s68;
-	s67 = strnstr(s65, s66, 13);
-	s68 = ft_strnstr(s65, s66, 13);
-	printf("%s\n", s67);
-	printf("%s\n", s68);
-	
-	printf("%s\n", "STRCMP");
-	char s69[] = "Hello ";
-	char s70[] = "Hello+";
-	int s71;
-	int s72;
-	s71 = strcmp(s69, s70);
-	s72 = ft_strcmp(s69, s70);
-	printf("%i\n", s71);
-	printf("%i\n", s72);
-	
-	printf("%s\n", "STRNCMP");
-	s71 = strncmp(s69, s70, 5);
-	s72 = ft_strncmp(s69, s70, 5);
-	printf("%i\n", s71);
-	printf("%i\n", s72);
-	
-	printf("%s\n", "ATOI");
-	char s73[] = "      +12345fdfh";
-	int s74;
-	int s75;
-	s74 = atoi(s73);
-	s75 = ft_atoi(s73);
-	printf("%i\n", s74);
-	printf("%i\n", s75);
-	
-	printf("%s\n", "ISALPHA");
-	char s76 = 'A';
-	char s77 = 'a';
-	char s78 = 'P';
-	char s79 = 'Z';
-	char s80 = '0';
-	char s81 = '9';
-	int p;
-	p = isalpha(s76);
-	printf("%i\n", p);
-	p = ft_isalpha(s76);
-	printf("%i\n", p);
-	p = isalpha(s77);
-	printf("%i\n", p);
-	p = ft_isalpha(s77);
-	printf("%i\n", p);
-	p = isalpha(s78);
-	printf("%i\n", p);
-	p = ft_isalpha(s78);
-	printf("%i\n", p);
-	p = isalpha(s79);
-	printf("%i\n", p);
-	p = ft_isalpha(s79);
-	printf("%i\n", p);
-	p = isalpha(s80);
-	printf("%i\n", p);
-	p = ft_isalpha(s80);
-	printf("%i\n", p);
-	p = isalpha(s81);
-	printf("%i\n", p);
-	p = ft_isalpha(s81);
-	printf("%i\n", p);
-	
-	printf("%s\n", "ISDIGIT");
-	char s82 = 'A';
-	char s83 = 'a';
-	char s84 = '8';
-	char s85 = 'Z';
-	char s86 = '0';
-	char s87 = '9';
-	int pp;
-	pp = isdigit(s82);
-	printf("%i\n", pp);
-	pp = ft_isdigit(s82);
-	printf("%i\n", pp);
-	pp = isdigit(s83);
-	printf("%i\n", pp);
-	pp = ft_isdigit(s83);
-	printf("%i\n", pp);
-	pp = isdigit(s84);
-	printf("%i\n", pp);
-	pp = ft_isdigit(s84);
-	printf("%i\n", pp);
-	pp = isdigit(s85);
-	printf("%i\n", pp);
-	pp = ft_isdigit(s85);
-	printf("%i\n", pp);
-	pp = isdigit(s86);
-	printf("%i\n", pp);
-	pp = ft_isdigit(s86);
-	printf("%i\n", pp);
-	pp = isdigit(s87);
-	printf("%i\n", pp);
-	pp = ft_isdigit(s87);
-	printf("%i\n", pp);
-	
-	printf("%s\n", "ISALNUM");
-	char s88 = ' ';
-	char s89 = 'a';
-	char s90 = '8';
-	char s91 = 'Z';
-	char s92 = 30;
-	char s93 = 123;
-	int pp2;
-	pp2 = isalnum(s88);
-	printf("%i\n", pp2);
-	pp2 = ft_isalnum(s88);
-	printf("%i\n", pp2);
-	pp2 = isalnum(s89);
-	printf("%i\n", pp2);
-	pp2 = ft_isalnum(s89);
-	printf("%i\n", pp2);
-	pp2 = isalnum(s90);
-	printf("%i\n", pp2);
-	pp2 = ft_isalnum(s90);
-	printf("%i\n", pp2);
-	pp2 = isalnum(s91);
-	printf("%i\n", pp2);
-	pp2 = ft_isalnum(s91);
-	printf("%i\n", pp2);
-	pp2 = isalnum(s92);
-	printf("%i\n", pp2);
-	pp2 = ft_isalnum(s92);
-	printf("%i\n", pp2);
-	pp2 = isalnum(s93);
-	printf("%i\n", pp2);
-	pp2 = ft_isalnum(s93);
-	printf("%i\n", pp2);
-	
-	printf("%s\n", "ISASCII");
-	char s94 = ' ';
-	char s95 = 'a';
-	char s96 = '8';
-	char s97 = 'Z';
-	char s98 = 0;
-	char s99 = -10;
-	int pp3;
-	pp3 = isascii(s94);
-	printf("%i\n", pp3);
-	pp3 = ft_isascii(s94);
-	printf("%i\n", pp3);
-	pp3 = isascii(s95);
-	printf("%i\n", pp3);
-	pp3 = ft_isascii(s95);
-	printf("%i\n", pp3);
-	pp3 = isascii(s96);
-	printf("%i\n", pp3);
-	pp3 = ft_isascii(s96);
-	printf("%i\n", pp3);
-	pp3 = isascii(s97);
-	printf("%i\n", pp3);
-	pp3 = ft_isascii(s97);
-	printf("%i\n", pp3);
-	pp3 = isascii(s98);
-	printf("%i\n", pp3);
-	pp3 = ft_isascii(s98);
-	printf("%i\n", pp3);
-	pp3 = isascii(s99);
-	printf("%i\n", pp3);
-	pp3 = ft_isascii(s99);
-	printf("%i\n", pp3);
 
+	printf("FT_ISASCII\n");
+	{
+		printf("\tTest 1 ");
+		char	nbr1 = isascii(0);
+		char	nbr2 = ft_isascii(0);
 
-	return (0);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisascii = %d\n\t\tft_isascii = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = isascii('Z');
+		nbr2 = ft_isascii('Z');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisascii = %d\n\t\tft_isascii = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = isascii(127);
+		nbr2 = ft_isascii(127);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisascii = %d\n\t\tft_isascii = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		nbr1 = isascii(-1);
+		nbr2 = ft_isascii(-1);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisascii = %d\n\t\tft_isascii = %d\n", nbr1, nbr2);
+	}
+
+	printf("FT_ISPRINT\n");
+	{
+		printf("\tTest 1 ");
+		char	nbr1 = isprint(0);
+		char	nbr2 = ft_isprint(0);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+		printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisprint = %d\n\t\tft_isprint = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = isprint(31);
+		nbr2 = ft_isprint(31);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisprint = %d\n\t\tft_isprint = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = isprint(127);
+		nbr2 = ft_isprint(127);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisprint = %d\n\t\tft_isprint = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		nbr1 = isprint(100);
+		nbr2 = ft_isprint(100);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tisprint = %d\n\t\tft_isprint = %d\n", nbr1, nbr2);
+	}
+
+	printf("FT_TOUPPER\n");
+	{
+		printf("\tTest 1 ");
+		char	nbr1 = toupper(0);
+		char	nbr2 = ft_toupper(0);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttoupper = %d\n\t\tft_toupper = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = toupper('a');
+		nbr2 = ft_toupper('a');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttoupper = %d\n\t\tft_toupper = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = toupper('A');
+		nbr2 = ft_toupper('A');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttoupper = %d\n\t\tft_toupper = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		nbr1 = toupper(100);
+		nbr2 = ft_toupper(100);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttoupper = %d\n\t\tft_toupper = %d\n", nbr1, nbr2);
+	}
+
+	printf("FT_TOLOWER\n");
+	{
+		printf("\tTest 1 ");
+		char	nbr1 = tolower(0);
+		char	nbr2 = ft_tolower(0);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttolower = %d\n\t\tft_tolower = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = tolower('a');
+		nbr2 = ft_tolower('a');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttolower = %d\n\t\tft_tolower = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = tolower('A');
+		nbr2 = ft_tolower('A');
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttolower = %d\n\t\tft_tolower = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		nbr1 = tolower(100);
+		nbr2 = ft_tolower(100);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\ttolower = %d\n\t\tft_tolower = %d\n", nbr1, nbr2);
+	}
+
+	/* ============ FT_OTHER ============ */
+	printf("FT_ATOI\n");
+	{
+		printf("\tTest 1 ");
+		int		nbr1 = atoi("fd");
+		int		nbr2 = ft_atoi("fd");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = atoi("a3");
+		nbr2 = ft_atoi("a3");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = atoi("  		5A");
+		nbr2 = ft_atoi("  		5A");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		nbr1 = atoi("+-42");
+		nbr2 = ft_atoi("+-42");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		nbr1 = atoi("-+42");
+		nbr2 = ft_atoi("-+42");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 6 ");
+		nbr1 = atoi("-42");
+		nbr2 = ft_atoi("-42");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 7 ");
+		nbr1 = atoi("--42");
+		nbr2 = ft_atoi("--42");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 8 ");
+		nbr1 = atoi("++42");
+		nbr2 = ft_atoi("++42");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+
+		printf("\tTest 9 ");
+		nbr1 = atoi("-4278978787897987");
+		nbr2 = ft_atoi("-4278978787897987");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tatoi = %d\n\t\tft_atoi = %d\n", nbr1, nbr2);
+	}
+
+	/* ============ FT_MEM ============ */
+
+	printf("FT_MEMSET\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "hello";
+
+		char	*nbr1 = memset(data1, '2', 5);
+		char	*nbr2 = ft_memset(data2, '2', 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemset = %s\n\t\tft_memset = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data3[] = "how are u?";
+		char	data4[] = "how are u?";
+
+		nbr1 = memset(data3, '\n', 9);
+		nbr2 = ft_memset(data4, '\n', 9);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemset = %s\n\t\tft_memset = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data5[20];
+		char	data6[20];
+
+		nbr1 = memset(data5, '\0', 20);
+		nbr2 = ft_memset(data6, '\0', 20);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemset = %s\n\t\tft_memset = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data7[] = "";
+		char	data8[] = "";
+
+		nbr1 = memset(data7, '2', 0);
+		nbr2 = ft_memset(data8, '2', 0);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemset = %s\n\t\tft_memset = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data9[] = "h1";
+		char	data10[] = "h1";
+
+		nbr1 = memset(data9, '2', 1);
+		nbr2 = ft_memset(data10, '2', 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemset = %s\n\t\tft_memset = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_BZERO\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "hello";
+
+		bzero(data1, 5);
+		ft_bzero(data2, 5);
+		(strcmp(data1, data2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tbzero = %s\n\t\tft_bzero = %s\n", data1, data2);
+
+		printf("\tTest 2 ");
+		char	data3[] = "how are u?";
+		char	data4[] = "how are u?";
+
+		bzero(data3, 9);
+		ft_bzero(data4, 9);
+		(strcmp(data3, data4) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tbzero = %s\n\t\tft_bzero = %s\n", data3, data4);
+
+		printf("\tTest 3 ");
+		char	data5[20];
+		char	data6[20];
+
+		bzero(data5, 20);
+		ft_bzero(data6, 20);
+		(strcmp(data5, data6) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tbzero = %s\n\t\tft_bzero = %s\n", data5, data6);
+
+		printf("\tTest 4 ");
+		char	data7[] = "";
+		char	data8[] = "";
+
+		bzero(data7, 0);
+		ft_bzero(data8, 0);
+		(strcmp(data7, data8) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tbzero = %s\n\t\tft_bzero = %s\n", data7, data8);
+
+		printf("\tTest 5 ");
+		char	data9[] = "h1";
+		char	data10[] = "h1";
+
+		bzero(data9, 1);
+		ft_bzero(data10, 1);
+		(strcmp(data9, data10) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tbzero = %s\n\t\tft_bzero = %s\n", data9, data10);
+	}
+
+	printf("FT_MEMCPY\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "how are u?";
+		char	data3[20] = "hello";
+		char	data4[20] = "how are u?";
+
+		char	*nbr1 = memcpy(data1, data2, 5);
+		char	*nbr2 = ft_memcpy(data3, data4, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcpy = %s\n\t\tft_memcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data5[] = "how are u?";
+		char	data6[] = "16";
+		char	data7[] = "how are u?";
+		char	data8[] = "16";
+
+		nbr1 = memcpy(data5, data6, 1);
+		nbr2 = ft_memcpy(data7, data8, 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcpy = %s\n\t\tft_memcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data9[20];
+		char	data10[20];
+		char	data11[20];
+		char	data12[20];
+
+		nbr1 = memcpy(data9, data10, 5);
+		nbr2 = ft_memcpy(data11, data12, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcpy = %s\n\t\tft_memcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data13[] = "hello";
+		char	data14[] = "";
+		char	data15[] = "hello";
+		char	data16[] = "";
+
+		nbr1 = memcpy(data13, data14, 6);
+		nbr2 = ft_memcpy(data15, data16, 6);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcpy = %s\n\t\tft_memcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char data17[4] = "3";
+		char data18[] = "hello";
+		char data19[4] = "3";
+		char data20[] = "hello";
+
+		nbr1 = memcpy(data17, data18, 2);
+		nbr2 = ft_memcpy(data19, data20, 2);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+		printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcpy = %s\n\t\tft_memcpy = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_MEMCCPY\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "how are u?";
+		char	data3[20] = "hello";
+		char	data4[20] = "how are u?";
+
+		char	*nbr1 = memccpy(data1, data2, 'a', 5);
+		char	*nbr2 = ft_memccpy(data3, data4, 'a', 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemccpy = %s\n\t\tft_memccpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data13[] = "hello";
+		char	data14[] = "";
+		char	data15[] = "hello";
+		char	data16[] = "";
+
+		nbr1 = memccpy(data13, data14, 0, 5);
+		nbr2 = ft_memccpy(data15, data16, 0, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemccpy = %s\n\t\tft_memccpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data17[7] = "hel";
+		char	data18[] = "hello";
+		char	data19[7] = "hel";
+		char	data20[] = "hello";
+
+		nbr1 = memccpy(data17, &data18[2], 'l', 7);
+		nbr2 = ft_memccpy(data19, &data20[2], 'l', 7);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemccpy = %s\n\t\tft_memccpy = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_MEMMOVE\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "how are u?";
+		char	data3[20] = "hello";
+		char	data4[20] = "how are u?";
+
+		char	*nbr1 = memmove(data1, data2, 5);
+		char	*nbr2 = ft_memmove(data3, data4, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemmove = %s\n\t\tft_memmove = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data5[] = "hello";
+		char	data6[] = "";
+		char	data7[] = "hello";
+		char	data8[] = "";
+
+		nbr1 = memmove(data5, data6, 5);
+		nbr2 = ft_memmove(data7, data8, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemmove = %s\n\t\tft_memmove = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data9[7] = "hel";
+		char	data10[] = "hello";
+		char	data11[7] = "hel";
+		char	data12[] = "hello";
+
+		nbr1 = memmove(data9, &data10[2], 7);
+		nbr2 = ft_memmove(data11, &data12[2], 7);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemmove = %s\n\t\tft_memmove = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_MEMCHR\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "hello";
+
+		char	*nbr1 = memchr(data1, 'l', 4);
+		char	*nbr2 = ft_memchr(data2, 'l', 4);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemchr = %s\n\t\tft_memchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data3[] = "how are u?";
+		char	data4[] = "how are u?";
+
+		nbr1 = memchr(data3, 'w', 5);
+		nbr2 = ft_memchr(data4, 'w', 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemchr = %s\n\t\tft_memchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data5[1] = "\0";
+		char	data6[1] = "\0";
+
+		nbr1 = memchr(data5, '\0', 1);
+		nbr2 = ft_memchr(data6, '\0', 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemchr = %s\n\t\tft_memchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data7[] = "h";
+		char	data8[] = "h";
+
+		nbr1 = memchr(data7, 'h', 1);
+		nbr2 = ft_memchr(data8, 'h', 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemchr = %s\n\t\tft_memchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data9[] = "h1";
+		char	data10[] = "h1";
+
+		nbr1 = memchr(data9, '1', 5);
+		nbr2 = ft_memchr(data10, '1', 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemchr = %s\n\t\tft_memchr = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_MEMCMP\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "hello";
+
+		int		nbr1;
+		int		nbr2;
+
+		nbr1 = memcmp(data1, data2, 5);
+		nbr2 = ft_memcmp(data1, data2, 5);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcmp = %d\n\t\tft_memcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data3[] = "how are u?";
+		char	data4[] = "how are u?";
+
+		nbr1 = memcmp(data3, data4, 9);
+		nbr2 = ft_memcmp(data3, data4, 9);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcmp = %d\n\t\tft_memcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data5[20];
+		char	data6[20];
+
+		nbr1 = memcmp(data5, data6, 20);
+		nbr2 = ft_memcmp(data5, data6, 20);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcmp = %d\n\t\tft_memcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data7[] = "";
+		char	data8[] = "";
+
+		nbr1 = memcmp(data7, data8, 10);
+		nbr2 = ft_memcmp(data7, data8, 10);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcmp = %d\n\t\tft_memcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data9[] = "h1";
+		char	data10[] = "h1";
+
+		nbr1 = memcmp(data9, data10, 1);
+		nbr2 = ft_memcmp(data9, data10, 1);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tmemcmp = %d\n\t\tft_memcmp = %d\n", nbr1, nbr2);
+	}
+
+	/* ============ FT_STR ============ */
+	printf("FT_STRLEN\n");
+	{
+		printf("\tTest 1 ");
+		int		nbr1 = strlen("fd");
+		int		nbr2 = ft_strlen("fd");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrlen = %d\n\t\tft_strlen = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		nbr1 = strlen("a3");
+		nbr2 = ft_strlen("a3");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrlen = %d\n\t\tft_strlen = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		nbr1 = strlen("  		5A");
+		nbr2 = ft_strlen("  		5A");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrlen = %d\n\t\tft_strlen = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		nbr1 = strlen("+-						42");
+		nbr2 = ft_strlen("+-						42");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrlen = %d\n\t\tft_strlen = %d\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		nbr1 = strlen("-+=/*-++-*/=42");
+		nbr2 = ft_strlen("-+=/*-++-*/=42");
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrlen = %d\n\t\tft_strlen = %d\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRDUP\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+
+		char	*nbr1 = strdup(data1);
+		char	*nbr2 = ft_strdup(data1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrdup = %s\n\t\tft_strdup = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data2[] = "how are u?";
+
+		nbr1 = strdup(data2);
+		nbr2 = ft_strdup(data2);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrdup = %s\n\t\tft_strdup = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data3[20];
+
+		nbr1 = strdup(data3);
+		nbr2 = ft_strdup(data3);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrdup = %s\n\t\tft_strdup = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data4[] = "";
+
+		nbr1 = strdup(data4);
+		nbr2 = ft_strdup(data4);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrdup = %s\n\t\tft_strdup = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data5[] = "h1";
+
+		nbr1 = strdup(data5);
+		nbr2 = ft_strdup(data5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrdup = %s\n\t\tft_strdup = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRCPY\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "hello";
+
+		char	*nbr1;
+		char	*nbr2;
+
+		nbr1 = strcpy(data1, data2);
+		nbr2 = ft_strcpy(data1, data2);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data3[] = "how are u?";
+		char	data4[] = "how are u?";
+
+		nbr1 = strcpy(data3, data4);
+		nbr2 = ft_strcpy(data3, data4);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data5[20];
+		char	data6[20];
+
+		nbr1 = strcpy(data5, data6);
+		nbr2 = ft_strcpy(data5, data6);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data7[] = "";
+		char	data8[] = "";
+
+		nbr1 = strcpy(data7, data8);
+		nbr2 = ft_strcpy(data7, data8);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data9[] = "h1";
+		char	data10[] = "h1";
+
+		nbr1 = strcpy(data9, data10);
+		nbr2 = ft_strcpy(data9, data10);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRCPY\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "hello";
+
+		char	*nbr1;
+		char	*nbr2;
+
+		nbr1 = strcpy(data1, data2);
+		nbr2 = ft_strcpy(data1, data2);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data3[] = "how are u?";
+		char	data4[] = "how are u?";
+
+		nbr1 = strcpy(data3, data4);
+		nbr2 = ft_strcpy(data3, data4);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data5[20];
+		char	data6[20];
+
+		nbr1 = strcpy(data5, data6);
+		nbr2 = ft_strcpy(data5, data6);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data7[] = "";
+		char	data8[] = "";
+
+		nbr1 = strcpy(data7, data8);
+		nbr2 = ft_strcpy(data7, data8);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data9[] = "h1";
+		char	data10[] = "h1";
+
+		strcpy(data9, data10);
+		ft_strcpy(data9, data10);
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcpy = %s\n\t\tft_strcpy = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRNCPY\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "how are u?";
+		char	data3[20] = "hello";
+		char	data4[20] = "how are u?";
+
+		char	*nbr1 = strncpy(data1, data2, 5);
+		char	*nbr2 = ft_strncpy(data3, data4, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncpy = %s\n\t\tft_strncpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data5[] = "how are u?";
+		char	data6[] = "16";
+		char	data7[] = "how are u?";
+		char	data8[] = "16";
+
+		nbr1 = strncpy(data5, data6, 1);
+		nbr2 = ft_strncpy(data7, data8, 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncpy = %s\n\t\tft_strncpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data9[20];
+		char	data10[20];
+		char	data11[20];
+		char	data12[20];
+
+		nbr1 = strncpy(data9, data10, 5);
+		nbr2 = ft_strncpy(data11, data12, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncpy = %s\n\t\tft_strncpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data13[] = "hello";
+		char	data14[] = "";
+		char	data15[] = "hello";
+		char	data16[] = "";
+
+		nbr1 = strncpy(data13, data14, 6);
+		nbr2 = ft_strncpy(data15, data16, 6);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncpy = %s\n\t\tft_strncpy = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char data17[4] = "";
+		char data18[] = "hello";
+		char data19[4] = "";
+		char data20[] = "hello";
+
+		nbr1 = strncpy(data17, data18, 2);
+		nbr2 = ft_strncpy(data19, data20, 2);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncpy = %s\n\t\tft_strncpy = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRCAT\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "how are u?";
+		char	data3[20] = "hello";
+		char	data4[20] = "how are u?";
+
+		char	*nbr1 = strcat(data1, data2);
+		char	*nbr2 = ft_strcat(data3, data4);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcat = %s\n\t\tft_strcat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data5[13] = "how are u?";
+		char	data6[] = "16";
+		char	data7[13] = "how are u?";
+		char	data8[] = "16";
+
+		nbr1 = strcat(data5, data6);
+		nbr2 = ft_strcat(data7, data8);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcat = %s\n\t\tft_strcat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data9[20];
+		char	data10[20];
+		char	data11[20];
+		char	data12[20];
+
+		nbr1 = strcat(data9, data10);
+		nbr2 = ft_strcat(data11, data12);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcat = %s\n\t\tft_strcat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data13[] = "hello";
+		char	data14[] = "";
+		char	data15[] = "hello";
+		char	data16[] = "";
+
+		nbr1 = strcat(data13, data14);
+		nbr2 = ft_strcat(data15, data16);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcat = %s\n\t\tft_strcat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char data17[6] = "";
+		char data18[] = "hello";
+		char data19[6] = "";
+		char data20[] = "hello";
+
+		nbr1 = strcat(data17, data18);
+		nbr2 = ft_strcat(data19, data20);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcat = %s\n\t\tft_strcat = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRNCAT\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "how are u?";
+		char	data3[20] = "hello";
+		char	data4[20] = "how are u?";
+
+		char	*nbr1 = strncat(data1, data2, 5);
+		char	*nbr2 = ft_strncat(data3, data4, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s\n\t\tft_strncat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data5[13] = "how are u?";
+		char	data6[] = "16";
+		char	data7[13] = "how are u?";
+		char	data8[] = "16";
+
+		nbr1 = strncat(data5, data6, 0);
+		nbr2 = ft_strncat(data7, data8, 0);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s\n\t\tft_strncat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data9[20];
+		char	data10[20];
+		char	data11[20];
+		char	data12[20];
+
+		nbr1 = strncat(data9, data10, 10);
+		nbr2 = ft_strncat(data11, data12, 10);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s\n\t\tft_strncat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data13[] = "hello";
+		char	data14[] = "";
+		char	data15[] = "hello";
+		char	data16[] = "";
+
+		nbr1 = ft_strncat(data13, data14, 3);
+		nbr2 = strncat(data15, data16, 3);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s\n\t\tft_strncat = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char data17[6] = "";
+		char data18[] = "hello";
+		char data19[6] = "";
+		char data20[] = "hello";
+
+		nbr1 = strncat(data17, data18, 5);
+		nbr2 = ft_strncat(data19, data20, 5);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s\n\t\tft_strncat = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRLCAT\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+		char	data2[20] = "how are u?";
+		char	data3[20] = "hello";
+		char	data4[20] = "how are u?";
+
+		size_t	nbr1 = strlcat(data1, data2, 5);
+		size_t	nbr2 = ft_strlcat(data3, data4, 5);
+		(strcmp(data1, data3) == 0 && nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s, %zu\n\t\tft_strncat = %s, %zu\n", data1, nbr1, data3, nbr2);
+
+		printf("\tTest 2 ");
+		char	data5[13] = "how are u?";
+		char	data6[] = "16";
+		char	data7[13] = "how are u?";
+		char	data8[] = "16";
+
+		nbr1 = strlcat(data1, data2, 5);
+		nbr2 = ft_strlcat(data3, data4, 5);
+		(strcmp(data5, data7) == 0 && nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s, %zu\n\t\tft_strncat = %s, %zu\n", data5, nbr1, data7, nbr2);
+
+		printf("\tTest 3 ");
+		char	data9[13] = "how are u?";
+		char	data10[] = "16";
+		char	data11[13] = "how are u?";
+		char	data12[] = "16";
+
+		nbr1 = strlcat(data1, data2, 5);
+		nbr2 = ft_strlcat(data3, data4, 5);
+		(strcmp(data9, data11) == 0 && nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s, %zu\n\t\tft_strncat = %s, %zu\n", data9, nbr1, data11, nbr2);
+
+		printf("\tTest 4 ");
+		char	data13[13] = "how are u?";
+		char	data14[] = "16";
+		char	data15[13] = "how are u?";
+		char	data16[] = "16";
+
+		nbr1 = strlcat(data1, data2, 5);
+		nbr2 = ft_strlcat(data3, data4, 5);
+		(strcmp(data13, data15) == 0 && nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s, %zu\n\t\tft_strncat = %s, %zu\n", data13, nbr1, data15, nbr2);
+
+		printf("\tTest 5 ");
+		char	data17[13] = "how are u?";
+		char	data18[] = "16";
+		char	data19[13] = "how are u?";
+		char	data20[] = "16";
+
+		nbr1 = strlcat(data1, data2, 5);
+		nbr2 = ft_strlcat(data3, data4, 5);
+		(strcmp(data17, data19) == 0 && nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncat = %s, %zu\n\t\tft_strncat = %s, %zu\n", data17, nbr1, data19, nbr2);
+	}
+
+	printf("FT_STRCHR\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello";
+
+		char	*nbr1;
+		char	*nbr2;
+
+		nbr1 = strchr(data1, 'l');
+		nbr2 = ft_strchr(data1, 'l');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrchr = %s\n\t\tft_strchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data2[] = "how are u?";
+
+		nbr1 = strchr(data2, '?');
+		nbr2 = ft_strchr(data2, '?');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrchr = %s\n\t\tft_strchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data3[20] = "5";
+
+		nbr1 = strchr(data3, '5');
+		nbr2 = ft_strchr(data3, '5');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrchr = %s\n\t\tft_strchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data4[] = "\nh\0";
+
+		nbr1 = strchr(data4, 'h');
+		nbr2 = ft_strchr(data4, 'h');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrchr = %s\n\t\tft_strchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data5[] = "h1";
+
+		nbr1 = strchr(data5, '1');
+		nbr2 = ft_strchr(data5, '1');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrchr = %s\n\t\tft_strchr = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRRCHR\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello how are ul?";
+
+		char	*nbr1;
+		char	*nbr2;
+
+		nbr1 = strrchr(data1, 'l');
+		nbr2 = ft_strrchr(data1, 'l');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrrchr = %s\n\t\tft_strrchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data2[] = "how are u?";
+
+		nbr1 = strrchr(data2, 'u');
+		nbr2 = ft_strrchr(data2, 'u');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrrchr = %s\n\t\tft_strrchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data3[20] = "data";
+
+		nbr1 = strrchr(data3, 'a');
+		nbr2 = ft_strrchr(data3, 'a');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrrchr = %s\n\t\tft_strrchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data4[] = "d";
+
+		nbr1 = strrchr(data4, '\0');
+		nbr2 = ft_strrchr(data4, '\0');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrrchr = %s\n\t\tft_strrchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data5[5] = "11111";
+
+		nbr1 = strrchr(data5, '1');
+		nbr2 = ft_strrchr(data5, '1');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrrchr = %s\n\t\tft_strrchr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 6 ");
+		char	data6[] = "h1";
+
+		nbr1 = strrchr(data6, '1');
+		nbr2 = ft_strrchr(data6, '1');
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrrchr = %s\n\t\tft_strrchr = %s\n", nbr1, nbr2);
+	}
+
+/*	printf("FT_STRSTR\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello how are ul?";
+
+		char	*nbr1;
+		char	*nbr2;
+
+		nbr1 = strstr(data1, "are");
+		nbr2 = ft_strstr(data1, "are");
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrstr = %s\n\t\tft_strstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data2[] = "how are u?";
+
+		nbr1 = strstr(data2, "?");
+		nbr2 = ft_strstr(data2, "?");
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrstr = %s\n\t\tft_strstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data3[20];
+
+		nbr1 = strstr(data3, "\0");
+		nbr2 = ft_strstr(data3, "\0");
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrstr = %s\n\t\tft_strstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data4[] = "";
+
+		nbr1 = strstr(data4, "\0");
+		nbr2 = ft_strstr(data4, "\0");
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrstr = %s\n\t\tft_strstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data5[] = "11111";
+
+		nbr1 = strstr(data5, "1");
+		nbr2 = ft_strstr(data5, "1");
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrstr = %s\n\t\tft_strstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 6 ");
+		char	data6[] = "1";
+
+		nbr1 = strstr(data6, "1");
+		nbr2 = ft_strstr(data6, "1");
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrstr = %s\n\t\tft_strstr = %s\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRNSTR\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello how are ul?";
+
+		char	*nbr1;
+		char	*nbr2;
+
+		nbr1 = strnstr(data1, "are", 13);
+		nbr2 = ft_strnstr(data1, "are", 13);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrnstr = %s\n\t\tft_strnstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data2[] = "how are u?";
+
+		nbr1 = strnstr(data2, "?", 15);
+		nbr2 = ft_strnstr(data2, "?", 15);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrnstr = %s\n\t\tft_strnstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data3[20];
+
+		nbr1 = strnstr(data3, "\0", 1);
+		nbr2 = ft_strnstr(data3, "\0", 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrnstr = %s\n\t\tft_strnstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data4[] = "";
+
+		nbr1 = strnstr(data4, "\0", 1);
+		nbr2 = ft_strnstr(data4, "\0", 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrnstr = %s\n\t\tft_strnstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data5[] = "11111";
+
+		nbr1 = strnstr(data5, "1", 1);
+		nbr2 = ft_strnstr(data5, "1", 1);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrnstr = %s\n\t\tft_strnstr = %s\n", nbr1, nbr2);
+
+		printf("\tTest 6 ");
+		char	data6[] = "1";
+
+		nbr1 = strnstr(data6, "1", 50);
+		nbr2 = ft_strnstr(data6, "1", 50);
+		(strcmp(nbr1, nbr2) == 0) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrnstr = %s\n\t\tft_strnstr = %s\n", nbr1, nbr2);
+	}*/
+
+	printf("FT_STRCMP\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello how are ul?";
+		char	data2[20] = "-";
+
+		int		nbr1 = strcmp(data1, data2);
+		int		nbr2 = ft_strcmp(data1, data2);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcmp = %d\n\t\tft_strcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data3[20] = "";
+		char	data4[20] = "-";
+
+		nbr1 = strcmp(data3, data4);
+		nbr2 = ft_strcmp(data3, data4);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcmp = %d\n\t\tft_strcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data5[20] = "-";
+		char	data6[20] = "";
+
+		nbr1 = strcmp(data5, data6);
+		nbr2 = ft_strcmp(data5, data6);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcmp = %d\n\t\tft_strcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data7[20] = "123456789\n";
+		char	data8[20] = "123456789\n";
+
+		nbr1 = strcmp(data7, data8);
+		nbr2 = ft_strcmp(data7, data8);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcmp = %d\n\t\tft_strcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data9[20] = "\n";
+		char	data10[20] = "\t";
+
+		nbr1 = strcmp(data9, data10);
+		nbr2 = ft_strcmp(data9, data10);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcmp = %d\n\t\tft_strcmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 6 ");
+		char	data11[20] = "";
+		char	data12[20] = "";
+
+		nbr1 = strcmp(data11, data12);
+		nbr2 = ft_strcmp(data11, data12);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrcmp = %d\n\t\tft_strcmp = %d\n", nbr1, nbr2);
+	}
+
+	printf("FT_STRNCMP\n");
+	{
+		printf("\tTest 1 ");
+		char	data1[20] = "hello how are ul?";
+		char	data2[20] = "-";
+
+		int		nbr1 = strncmp(data1, data2, 1);
+		int		nbr2 = ft_strncmp(data1, data2, 1);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncmp = %d\n\t\tft_strncmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 2 ");
+		char	data3[20] = "";
+		char	data4[20] = "";
+
+		nbr1 = strncmp(data3, data4, 10);
+		nbr2 = ft_strncmp(data3, data4, 10);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncmp = %d\n\t\tft_strncmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 3 ");
+		char	data5[20] = "     5";
+		char	data6[20] = "      5";
+
+		nbr1 = strncmp(data5, data6, 2);
+		nbr2 = ft_strncmp(data5, data6, 2);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncmp = %d\n\t\tft_strncmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 4 ");
+		char	data7[20] = "123456789\t\n\b";
+		char	data8[20] = "123456789\t\n\t";
+
+		nbr1 = strncmp(data7, data8, 20);
+		nbr2 = ft_strncmp(data7, data8, 20);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncmp = %d\n\t\tft_strncmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 5 ");
+		char	data9[20] = "\n";
+		char	data10[20] = "\t";
+
+		nbr1 = strncmp(data9, data10, 5);
+		nbr2 = ft_strncmp(data9, data10, 5);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncmp = %d\n\t\tft_strncmp = %d\n", nbr1, nbr2);
+
+		printf("\tTest 6 ");
+		char	data11[20] = "\0";
+		char	data12[20] = "\0";
+
+		nbr1 = strncmp(data11, data12, 100);
+		nbr2 = ft_strncmp(data11, data12, 100);
+
+		(nbr1 == nbr2) ? printf("- \x1b[32;1m[GOOD]\x1b[0m\n") :
+			printf("- \x1b[31;1m[NOT GOOD]\x1b[0m\n\t\tstrncmp = %d\n\t\tft_strncmp = %d\n", nbr1, nbr2);
+	}
 }
-

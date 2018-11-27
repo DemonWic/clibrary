@@ -6,30 +6,24 @@
 /*   By: ahintz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 17:55:21 by ahintz            #+#    #+#             */
-/*   Updated: 2018/11/22 19:04:52 by ahintz           ###   ########.fr       */
+/*   Updated: 2018/11/27 16:36:37 by ahintz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*s;
-	char	*d;
 	size_t	i;
 	char	temp[len];
 
-	s = (char *)src;
-	d = (char *)dst;
-	i = 0;
-	while (i < len)
+	i = -1;
+	while (++i < len)
 	{
-		temp[i] = s[i];
-		i++;
+		temp[i] = *((char *)src++);
 	}
-	i = 0;
-	while (i < len)
+	i = -1;
+	while ((++i < len) && *((char *)dst))
 	{
-		d[i] = temp[i];
-		i++;
+		*((char *)dst++) = temp[i];
 	}
-	return (d);
+	return (dst);
 }
