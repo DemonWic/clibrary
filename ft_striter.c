@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
 void	ft_striter(char *s, void (*f) (char *))
 {
@@ -19,17 +19,4 @@ void	ft_striter(char *s, void (*f) (char *))
 	i = 0;
 	while (s[i])
 		f(&s[i++]);
-}
-
-void	ft_plus(char *c)
-{
-	*c = 'a';
-}
-
-int		main()
-{
-	char s[] = "12345";
-	ft_striter(s, &ft_plus);
-	printf("%s\n", s);
-	return (0);
 }

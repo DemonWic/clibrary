@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
 int		ft_strnequ(char const *s1, char const *s2, size_t n)
 {
@@ -28,15 +28,4 @@ int		ft_strnequ(char const *s1, char const *s2, size_t n)
 		i++;
 	}
 	return (1);
-}
-
-int		main()
-{
-	char s1[] = "Hello";
-	char s2[] = "Helpo";
-	int p;
-
-	p = ft_strnequ(s1, s2, 3);
-	printf("%i\n", p);
-	return (0);
 }

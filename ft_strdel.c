@@ -10,34 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "libft.h"
 
 void	ft_strdel(char **as)
 {
 	free(*as);
 	*as = NULL;
-}
-
-int	main()
-{
-	char	*str83;
-
-	printf("\e[34;3m*———————————————————————————————————————————————————————*\e[0m\n%s\n", "\e[32;4mFT_STRDEL\e[0m");
-	
-	str83 = (char *)malloc(sizeof(char) * 10);
-	if (str83)
-	{
-		ft_strdel(&str83);
-		if (str83 == NULL)
-		{
-			printf("Result: %s\n", "\x1b[32mOK\x1b[0m");
-		}
-		else
-		{
-			printf("Result: %s\n", "\x1b[31mFAIL\x1b[0m");
-			free(str83);
-		}
-	}
-	return (0);
 }

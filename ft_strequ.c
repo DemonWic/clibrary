@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
 int		ft_strequ(char const *s1, char const *s2)
 {
@@ -28,15 +28,4 @@ int		ft_strequ(char const *s1, char const *s2)
 		i++;
 	}
 	return (1);
-}
-
-int		main()
-{
-	char s1[] = "Hello";
-	char s2[] = "Helpo";
-	int p;
-
-	p = ft_strequ(s1, s2);
-	printf("%i\n", p);
-	return (0);
 }

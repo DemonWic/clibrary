@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strmap(char const *s, char (*f) (char))
 {
@@ -31,22 +30,4 @@ char	*ft_strmap(char const *s, char (*f) (char))
 		i++;
 	}
 	return (res);
-}
-
-
-char	ft_pluss2(char c)
-{
-	c = 'a' ;
-	return (c);
-}
-
-int		main()
-{
-	char s[] = "12345";
-	char *r;
-	printf("%s\n", s);
-	r = ft_strmap(s, &ft_pluss2);
-	printf("%s\n", s);
-	printf("%s\n", r);
-	return (0);
 }

@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
@@ -30,25 +28,4 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 		i++;
 	}
 	return (res - i);
-}
-
-int		main()
-{
-	char	str93[6] = "hello";
-	char	*str94;
-
-	printf("*\e[34;3m———————————————————————————————————————————————————————\e[0m*\n%s\n", "\e[32;4mFT_STRSUB\e[0m");
-	printf("Initial: %s\n", str93);
-	str94 = ft_strsub(str93, 2, 5);
-	printf("ft_strsub return: %s\n", str94);
-	if (strcmp(str94, "llo") == 0)
-	{
-		printf("Result: %s\n", "\x1b[32mOK\x1b[0m");
-	}
-	else
-	{
-		printf("Result: %s\n", "\x1b[31mFAIL\x1b[0m");
-	}
-	return (0);
-
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
 void	ft_striteri(char *s, void (*f) (unsigned int, char *))
 {
@@ -22,17 +22,4 @@ void	ft_striteri(char *s, void (*f) (unsigned int, char *))
 		f(i,&s[i]);
 		i++;
 	}
-}
-
-void	ft_pluss(unsigned i, char *c)
-{
-	*c = 'a' + i;
-}
-
-int		main()
-{
-	char s[] = "12345";
-	ft_striteri(s, &ft_pluss);
-	printf("%s\n", s);
-	return (0);
 }
