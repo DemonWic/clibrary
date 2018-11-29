@@ -8,6 +8,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <ctype.h>
+# include <fcntl.h>
 /*
 #include "ft_memset.c"
 #include "ft_bzero.c"
